@@ -206,7 +206,7 @@ public class SearchResult extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-
+        Filter.radioBtn = 0;
         startActivity(new Intent(SearchResult.this, Filter.class));
         finish();
 

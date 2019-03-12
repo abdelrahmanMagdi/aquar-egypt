@@ -135,7 +135,7 @@ public class favouriteAdapter extends RecyclerView.Adapter<favouriteAdapter.myVi
                     .getAsJSONObject(new JSONObjectRequestListener() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            Toast.makeText(myContext, response.toString(), Toast.LENGTH_SHORT).show();
+                            myUtils.handleError(myContext, response.toString(),response.length());
                             myView.this.like_btn_of_favourite_list.setVisibility(View.GONE);
                             favouriteObjPOJOS.remove(pojo);
                             notifyDataSetChanged();
@@ -144,7 +144,7 @@ public class favouriteAdapter extends RecyclerView.Adapter<favouriteAdapter.myVi
 
                         @Override
                         public void onError(ANError anError) {
-                            Toast.makeText(myContext, anError.toString(), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(myContext, anError.toString(), Toast.LENGTH_SHORT).show();
                             myUtils.handleError(myContext, anError.getErrorBody(), anError.getErrorCode());
                             dialog.dismiss();
 

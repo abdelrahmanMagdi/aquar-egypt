@@ -2,9 +2,13 @@ package com.aquar.myaquar_egypt.Activity;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +51,8 @@ import com.google.gson.GsonBuilder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import butterknife.BindAnim;
@@ -56,7 +62,7 @@ import butterknife.OnClick;
 import dmax.dialog.SpotsDialog;
 
 public class Login extends AppCompatActivity {
-
+//    gif_final
     @BindView(R.id.enter_email)
     EditText enter_email;
     @BindView(R.id.enter_pass)
@@ -78,6 +84,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(this);
         setContentView(R.layout.login);
+        printKeyHash();
         myUtils.setLocale(this);
 
         facebookToken();
@@ -279,5 +286,21 @@ public class Login extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finishAffinity();
+    }
+
+    private void printKeyHash() {
+        // Add code to print out the key hash
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo("com.aswany.android.myaquar_eg", PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e("KeyHash:", e.toString());
+        } catch (NoSuchAlgorithmException e) {
+            Log.e("KeyHash:", e.toString());
+        }
     }
 }
